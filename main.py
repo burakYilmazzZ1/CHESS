@@ -88,11 +88,38 @@ small_black_images= [black_pawn_small,black_queen_small, black_king_small, black
 piece_list=['pawn','queen','king','knight','rook','bishop']
 #check variables/flashing counter
 
+
+def draw_board():
+    for i in range(32):
+        column= i%4
+        row= i//4
+
+        if row%2==0:
+            pygame.draw.rect(screen,'light gray',(480-(column*160),row*80,80,80))
+        
+        else:
+            pygame.draw.rect(screen,'light gray',[560-(column*160),row*80,80,80])
+        
+        pygame.draw.rect(screen,'gray',[0,640,WIDTH,80])
+        pygame.draw.rect(screen,'godl',[0,640,WIDTH,80],2)
+        pygame.draw.rect(screen,'gray',[640,0,160,HEIGHT,2],2)
+        status_text=['White select a piece to move!','White: Select a Destination!,
+        'Black: Select a piece to move!','White: Select a Destination!']
+
+        screen.blit(big_font.render(status_text[turn_step],True,'black'),(20,660))
+        for i in range(9):
+            pygame.draw.line(screen,'black',(0,80*i),(640,80*i),2)
+            pygame.draw.line(screen,'black',(80*i,0),(80*i,640),2)
+
+
+
 #main game loop
 run=True
 while run:
     timer.tick(fps)
     screen.fill('dark gray')
+
+    draw_board()
 
     #event handling
     for event in pygame.event.get():
