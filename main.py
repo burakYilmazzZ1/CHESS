@@ -95,22 +95,27 @@ def draw_board():
         row= i//4
 
         if row%2==0:
-            pygame.draw.rect(screen,'light gray',(480-(column*160),row*80,80,80))
-        
+            pygame.draw.rect(screen,'light gray',[480-(column*160), row*80,80,80])
+
         else:
             pygame.draw.rect(screen,'light gray',[560-(column*160),row*80,80,80])
         
         pygame.draw.rect(screen,'gray',[0,640,WIDTH,80])
-        pygame.draw.rect(screen,'godl',[0,640,WIDTH,80],2)
-        pygame.draw.rect(screen,'gray',[640,0,160,HEIGHT,2],2)
-        status_text=['White select a piece to move!','White: Select a Destination!,
-        'Black: Select a piece to move!','White: Select a Destination!']
+        pygame.draw.rect(screen, 'gold', [0,640,WIDTH, 80],2)
+        pygame.draw.rect(screen, 'gray', [640,0,160,HEIGHT],2)
+        status_text=['White select a piece to move!','White: Select a Destination!',
+                     'Black: Select a piece to move!', 'White: Select a Destination!']
+        screen.blit(big_font.render(status_text[turn_step], True, 'black'), (20,660))
 
-        screen.blit(big_font.render(status_text[turn_step],True,'black'),(20,660))
         for i in range(9):
             pygame.draw.line(screen,'black',(0,80*i),(640,80*i),2)
             pygame.draw.line(screen,'black',(80*i,0),(80*i,640),2)
-
+            
+def draw_pieces():
+    for i in range(len(white_pieces)):
+        index=piece_list.index(white_pieces[i])
+        if white_pieces[i]=='pawn':
+            screen.blit(white_pawn,(white_location[i][0]*80+3,white))
 
 
 #main game loop
