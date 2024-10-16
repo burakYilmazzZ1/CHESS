@@ -115,7 +115,28 @@ def draw_pieces():
     for i in range(len(white_pieces)):
         index=piece_list.index(white_pieces[i])
         if white_pieces[i]=='pawn':
-            screen.blit(white_pawn,(white_location[i][0]*80+3,white))
+            screen.blit(white_pawn,(white_location[i][0]*80+3,white_location[i][1]*80+6))
+        else:
+            screen.blit(white_images[index],(white_location[i][0]*80+1,white_location[i][1]*80+1))
+        
+        if turn_step<2:
+            if selection==1:
+                pygame.draw.rect(screen,'red',[white_location[i][0]*80+1,white_location[i][1]*80+1,80,80],2)
+    for i in range(len(black_pieces)):
+        index=piece_list.index(black_pieces[i])
+        if black_pieces[i]=='pawn':
+            screen.blit(black_pawn,(black_location[i][0]*80+3,black_location[i][1]*80+6))
+        
+        else:
+            screen.blit(black_pawn,(black_location[i][0]*80+1,black_location[i][1]*80+1))
+        
+        if turn_step<2:
+            if selection==1:
+                pygame.draw.rect(screen,'blue',[black_location[i][0]*80+1,black_location[i][1]*80+1,80,80],2)
+
+
+def check_option():
+    pass
 
 
 #main game loop
@@ -130,6 +151,50 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run=False
+
+            if event.type==pygame.MOUSEBUTTONDOWN and event.button==1:
+                x_coard=event.pos[0]//80
+                y_coard=event.pos[1]//80
+                click_coards=(x_coard,y_coard)
+
+                if turn_step<=1:
+                    if click_coards in white_location:
+                        selection=white_location.index(click_coards)
+                        if turn_step==0:
+                            turn_step=1
+                    
+                    if click_coards in valid_moves and selection!=80:
+                        white_location[selection]=click_coards
+                        if click_coards in black_location:
+                            black_piece=black_location.index(click_coards)
+                            captured_pieces_white.append(black_pieces[black_piece])
+                            black_pieces.pop(black_piece)
+                            black_location.pop(black_piece)
+                        black_options=check_option(black_pieces,black_location,'black')
+                        white_options=check_option(white_pieces,white_location,'white')
+                        turn_step=2
+                        selection=80
+                        valid_moves=[]
+                if turn_step>1:
+                    if click_coards in black_location:
+                        selection=black_location.index(click_coards)
+                        if turn_step==0:
+                            turn_step=1
+                    
+                    if click_coards in valid_moves and selection!=80:
+                        black_location[selection]=click_coards
+                        if click_coards in white_location:
+                            white_piece=white_location.index(click_coards)
+                            captured_pieces_black.append(white_pieces[white_piece])
+                        white_pieces.pop(white_piece)
+                        white_location.pop(white_piece)
+                        black_options=check_option(black_pieces,black_location,'black')
+                        white_options=check_option(white_pieces,white_location,'white')
+                        turn_step=2
+                        selection=80
+                        valid_moves=[]
+
+
     
     pygame.display.flip()
 pygame.quit()
