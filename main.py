@@ -135,8 +135,29 @@ def draw_pieces():
                 pygame.draw.rect(screen,'blue',[black_location[i][0]*80+1,black_location[i][1]*80+1,80,80],2)
 
 
-def check_option():
-    pass
+def check_option(pieces,location,turn):
+    moves_list=[]
+    all_moves_list=[]
+
+    for i in range(pieces):
+        location=location[i]
+        piece=pieces[i]
+        if piece=='pawn':
+            moves_list=check_pawn(location, turn)
+        elif piece=='rook':
+            moves_list=check_rook(location,turn)
+        elif piece=='knight':
+            moves_list=check_knight(location,turn)
+        elif piece=='bishop':
+            moves_list=check_bishop(location,turn)
+        elif piece=='queen':
+            moves_list=check_queen(location,turn)
+        elif piece=='king':
+            moves_list=check_king(location,turn)
+        
+        all_moves_list.append(moves_list)
+    return all_moves_list
+    
 
 
 #main game loop
