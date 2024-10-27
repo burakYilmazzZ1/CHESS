@@ -158,6 +158,47 @@ def check_option(pieces,location,turn):
         all_moves_list.append(moves_list)
     return all_moves_list
     
+def check_pawn(position, color):
+    moves_list = []
+    if color == 'white':
+        if (position[0], position[1] + 1) not in white_location and \
+                (position[0], position[1] + 1) not in black_location and position[1] < 7:
+            moves_list.append((position[0], position[1] + 1))
+        if (position[0], position[1] + 2) not in white_location and \
+                (position[0], position[1] + 2) not in black_location and position[1] == 1:
+            moves_list.append((position[0], position[1] + 2))
+        if (position[0] + 1, position[1] + 1) in black_location:
+            moves_list.append((position[0] + 1, position[1] + 1))
+        if (position[0] - 1, position[1] + 1) in black_location:
+            moves_list.append((position[0] - 1, position[1] + 1))
+    else:
+        if (position[0], position[1] - 1) not in white_location and \
+                (position[0], position[1] - 1) not in black_location and position[1] > 0:
+            moves_list.append((position[0], position[1] - 1))
+        if (position[0], position[1] - 2) not in white_location and \
+                (position[0], position[1] - 2) not in black_location and position[1] == 6:
+            moves_list.append((position[0], position[1] - 2))
+        if (position[0] + 1, position[1] - 1) in white_location:
+            moves_list.append((position[0] + 1, position[1] - 1))
+        if (position[0] - 1, position[1] - 1) in white_location:
+            moves_list.append((position[0] - 1, position[1] - 1))
+    return moves_list
+
+def check_valid_moves():
+    if turn_step<2:
+        option_list=white_options
+    else:
+        option_list=black_options
+    valid_options=option_list[selection]
+    return valid_options
+
+def draw_valid(moves):
+    if turn_step<2:
+        color='red'
+    else:
+        color='blue'
+    for i in range(len(moves)):
+        pygame.draw.circle(screen,color,(moves[i][0]*100+50,moves[i][1]*100+50),5)
 
 
 #main game loop
